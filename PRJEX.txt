@@ -1,0 +1,24 @@
+local url = "https://raw.githubusercontent.com/BananaKCam/ProjectEx/refs/heads/main/attachment-6.png"
+local folder = "UND-X"
+local filename = folder .. "/ProjectEx_UD.png"
+
+if not httprequest then
+    httprequest = request or syn.request or http_request
+end
+
+if not isfolder(folder) then
+    makefolder(folder)
+end
+
+if httprequest and writefile then
+    local success, response = pcall(function()
+        return httprequest({
+            Url = url,
+            Method = "GET"
+        })
+    end)
+
+    if success and response and response.StatusCode == 200 then
+        writefile(filename, response.Body)
+    end
+end
